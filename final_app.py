@@ -84,7 +84,7 @@ class VideoProcessor(VideoTransformerBase):
         while self.actor:
             self.actor.SetUserTransform(self.transform)
             self.actor = self.imported_actors.GetNextActor()
-        self.render_window.Render()
+        # self.render_window.Render()
         window_to_image_filter = vtkWindowToImageFilter()
         window_to_image_filter.SetInput(self.render_window)
         window_to_image_filter.Update()
