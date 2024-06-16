@@ -28,12 +28,12 @@ def rotate(angle_x,angle_y,angle_z):
             actor.SetUserTransform(transform)
             actor = imported_actors.GetNextActor()
         render_window.Render()
-        window_to_image_filter = vtkWindowToImageFilter()
-        window_to_image_filter.SetInput(render_window)
-        window_to_image_filter.Update()
-        # # Convert vtkImageData to numpy array
-        vtk_image = window_to_image_filter.GetOutput()
-        width, height, _ = vtk_image.GetDimensions()
+        # window_to_image_filter = vtkWindowToImageFilter()
+        # window_to_image_filter.SetInput(render_window)
+        # window_to_image_filter.Update()
+        # # # Convert vtkImageData to numpy array
+        # vtk_image = window_to_image_filter.GetOutput()
+        # width, height, _ = vtk_image.GetDimensions()
         # vtk_array = vtk_image.GetPointData().GetScalars()
         # vtk_array.SetNumberOfComponents(3)  # Ensure RGB
         # np_image = np.array(vtk_array)
