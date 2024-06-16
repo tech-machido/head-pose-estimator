@@ -16,7 +16,7 @@ import streamlit_webrtc
 import av
 from twilio.rest import Client
 
-@st.cache_data
+# @st.cache_data
 def get_ice_servers():
     try:
         account_sid = os.environ["TWILIO_ACCOUNT_SID"]
@@ -41,8 +41,8 @@ class VideoProcessor(VideoTransformerBase):
     def recv(self, frame):
         frm=frame.to_ndarray(format="bgr24")
         image=cv2.flip(frm,1)
-        image2=self.logic(image)
-        return av.VideoFrame.from_ndarray(image2,format="bgr24")
+        # image2=self.logic(image)
+        return av.VideoFrame.from_ndarray(image,format="bgr24")
         # return av.VideoFrame.from_ndarray(frm,format="bgr24")
     
     def logic(self,image):
