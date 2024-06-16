@@ -64,7 +64,7 @@ class VideoProcessor(VideoTransformerBase):
                 data=np.reshape(data,(1,12,))
                 label=headpose_model.predict(data,verbose=0)[0]
                 deg_x,deg_y,deg_z,t_x,t_y,t_z=label
-                # self.img_to_stack=self.rotate(deg_x,deg_y,deg_z) 
+                self.img_to_stack=self.rotate(deg_x,deg_y,deg_z) 
                 self.output_img=np.vstack((image,self.img_to_stack)) 
                
 
@@ -81,18 +81,18 @@ class VideoProcessor(VideoTransformerBase):
         self.transform.RotateZ(-angle_y-pre_y)
         self.imported_actors.InitTraversal()
         self.actor = self.imported_actors.GetNextActor()
-        while self.actor:
-            self.actor.SetUserTransform(self.transform)
-            self.actor = self.imported_actors.GetNextActor()
-        self.render_window.Render()
-        window_to_image_filter = vtkWindowToImageFilter()
-        window_to_image_filter.SetInput(self.render_window)
-        window_to_image_filter.Update()
-        # # Convert vtkImageData to numpy array
-        vtk_image = window_to_image_filter.GetOutput()
-        width, height, _ = vtk_image.GetDimensions()
-        vtk_array = vtk_image.GetPointData().GetScalars()
-        vtk_array.SetNumberOfComponents(3)  # Ensure RGB
+        # while self.actor:
+        #     self.actor.SetUserTransform(self.transform)
+        #     self.actor = self.imported_actors.GetNextActor()
+        # self.render_window.Render()
+        # window_to_image_filter = vtkWindowToImageFilter()
+        # window_to_image_filter.SetInput(self.render_window)
+        # window_to_image_filter.Update()
+        # # # Convert vtkImageData to numpy array
+        # vtk_image = window_to_image_filter.GetOutput()
+        # width, height, _ = vtk_image.GetDimensions()
+        # vtk_array = vtk_image.GetPointData().GetScalars()
+        # vtk_array.SetNumberOfComponents(3)  # Ensure RGB
         # np_image = np.array(vtk_array)
         # np_image=np.reshape(np_image,(480,640,3))
         # # # # Convert RGB to BGR
