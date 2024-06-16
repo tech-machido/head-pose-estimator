@@ -24,23 +24,23 @@ def rotate(angle_x,angle_y,angle_z):
         transform.RotateZ(-angle_y-pre_y)
         imported_actors.InitTraversal()
         actor = imported_actors.GetNextActor()
-        while actor:
-            actor.SetUserTransform(transform)
-            actor = imported_actors.GetNextActor()
-        render_window.Render()
-        window_to_image_filter = vtkWindowToImageFilter()
-        window_to_image_filter.SetInput(render_window)
-        window_to_image_filter.Update()
-        # # Convert vtkImageData to numpy array
-        vtk_image = window_to_image_filter.GetOutput()
-        width, height, _ = vtk_image.GetDimensions()
-        vtk_array = vtk_image.GetPointData().GetScalars()
-        vtk_array.SetNumberOfComponents(3)  # Ensure RGB
-        np_image = np.array(vtk_array)
-        np_image=np.reshape(np_image,(480,640,3))
-        # # # Convert RGB to BGR
-        np_image = np_image[:, :, ::-1]
-        return np_image
+        # while actor:
+        #     actor.SetUserTransform(transform)
+        #     actor = imported_actors.GetNextActor()
+        # render_window.Render()
+        # window_to_image_filter = vtkWindowToImageFilter()
+        # window_to_image_filter.SetInput(render_window)
+        # window_to_image_filter.Update()
+        # # # Convert vtkImageData to numpy array
+        # vtk_image = window_to_image_filter.GetOutput()
+        # width, height, _ = vtk_image.GetDimensions()
+        # vtk_array = vtk_image.GetPointData().GetScalars()
+        # vtk_array.SetNumberOfComponents(3)  # Ensure RGB
+        # np_image = np.array(vtk_array)
+        # np_image=np.reshape(np_image,(480,640,3))
+        # # # # Convert RGB to BGR
+        # np_image = np_image[:, :, ::-1]
+        # return np_image
 
 if __name__=="__main__":
     main_dir=os.path.dirname(__file__)
@@ -73,4 +73,4 @@ if __name__=="__main__":
     degrees_y = st.sidebar.slider('Y Angle', min_value=-180.0, max_value=180.0, value=0.0)
     degrees_z = st.sidebar.slider('Z Angle', min_value=-180.0, max_value=180.0, value=0.0)
 
-    st.image(rotate(degrees_x,degrees_y,degrees_z))
+    (rotate(degrees_x,degrees_y,degrees_z))
