@@ -42,7 +42,7 @@ class VideoProcessor(VideoTransformerBase):
         frm=frame.to_ndarray(format="bgr24")
         image=cv2.flip(frm,1)
         # image2=self.logic(image)
-        return av.VideoFrame.from_ndarray(image,format="bgr24")
+        return av.VideoFrame.from_ndarray(image2,format="bgr24")
         # return av.VideoFrame.from_ndarray(frm,format="bgr24")
     
     def logic(self,image):
@@ -94,10 +94,10 @@ class VideoProcessor(VideoTransformerBase):
         vtk_array = vtk_image.GetPointData().GetScalars()
         vtk_array.SetNumberOfComponents(3)  # Ensure RGB
         np_image = np.array(vtk_array)
-        np_image=np.reshape(np_image,(480,640,3))
-        # # # Convert RGB to BGR
-        np_image = np_image[:, :, ::-1]
-        return np_image
+        # np_image=np.reshape(np_image,(480,640,3))
+        # # # # Convert RGB to BGR
+        # np_image = np_image[:, :, ::-1]
+        return self.output_img
 
     def setter(self,output_img,img_to_stack):
         self.output_img=output_img
