@@ -66,7 +66,7 @@ class VideoProcessor(VideoTransformerBase):
                 deg_x,deg_y,deg_z,t_x,t_y,t_z=label
                 self.img_to_stack=self.rotate(deg_x,deg_y,deg_z) 
                 self.output_img=np.vstack((image,self.img_to_stack)) 
-                st.write(self.img_to_stack.shape,self.output_img.shape,image.shape)
+               
 
                 self.output_img=cv2.resize(self.output_img,(640,480))
                 self.output_img=self.output_img.astype("uint8")
