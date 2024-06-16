@@ -84,7 +84,7 @@ class VideoProcessor(VideoTransformerBase):
         while self.actor:
             self.actor.SetUserTransform(self.transform)
             self.actor = self.imported_actors.GetNextActor()
-        # self.render_window.Render()
+        self.render_window.Render()
         window_to_image_filter = vtkWindowToImageFilter()
         window_to_image_filter.SetInput(self.render_window)
         window_to_image_filter.Update()
@@ -92,7 +92,7 @@ class VideoProcessor(VideoTransformerBase):
         vtk_image = window_to_image_filter.GetOutput()
         width, height, _ = vtk_image.GetDimensions()
         vtk_array = vtk_image.GetPointData().GetScalars()
-        vtk_array.SetNumberOfComponents(3)  # Ensure RGB
+        # vtk_array.SetNumberOfComponents(3)  # Ensure RGB
         # np_image = np.array(vtk_array)
         # np_image=np.reshape(np_image,(480,640,3))
         # # # # Convert RGB to BGR
