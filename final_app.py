@@ -41,7 +41,7 @@ class VideoProcessor(VideoTransformerBase):
     def recv(self, frame):
         frm=frame.to_ndarray(format="bgr24")
         image=cv2.flip(frm,1)
-        # image2=self.logic(image)
+        image2=self.logic(image)
         return av.VideoFrame.from_ndarray(image2,format="bgr24")
         # return av.VideoFrame.from_ndarray(frm,format="bgr24")
     
