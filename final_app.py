@@ -41,8 +41,8 @@ class VideoProcessor(VideoTransformerBase):
     def recv(self, frame):
         frm=frame.to_ndarray(format="bgr24")
         image=cv2.flip(frm,1)
-        # image2=self.logic(image)
-        return av.VideoFrame.from_ndarray(image,format="bgr24")
+        image2=self.logic(image)
+        return av.VideoFrame.from_ndarray(image2,format="bgr24")
         # return av.VideoFrame.from_ndarray(frm,format="bgr24")
     
     def logic(self,image):
@@ -64,7 +64,7 @@ class VideoProcessor(VideoTransformerBase):
                 data=np.reshape(data,(1,12,))
                 label=headpose_model.predict(data,verbose=0)[0]
                 deg_x,deg_y,deg_z,t_x,t_y,t_z=label
-                self.img_to_stack=self.rotate(deg_x,deg_y,deg_z) 
+                # self.img_to_stack=self.rotate(deg_x,deg_y,deg_z) 
                 self.output_img=np.vstack((image,self.img_to_stack)) 
                
 
