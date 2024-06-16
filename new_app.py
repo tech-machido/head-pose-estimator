@@ -27,7 +27,7 @@ def rotate(angle_x,angle_y,angle_z):
         while actor:
             actor.SetUserTransform(transform)
             actor = imported_actors.GetNextActor()
-        render_window.Render()
+        # render_window.Render()
         # window_to_image_filter = vtkWindowToImageFilter()
         # window_to_image_filter.SetInput(render_window)
         # window_to_image_filter.Update()
