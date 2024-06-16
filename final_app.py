@@ -93,11 +93,11 @@ class VideoProcessor(VideoTransformerBase):
         width, height, _ = vtk_image.GetDimensions()
         vtk_array = vtk_image.GetPointData().GetScalars()
         vtk_array.SetNumberOfComponents(3)  # Ensure RGB
-        np_image = np.array(vtk_array)
-        np_image=np.reshape(np_image,(480,640,3))
-        # # # Convert RGB to BGR
-        np_image = np_image[:, :, ::-1]
-        return np_image
+        # np_image = np.array(vtk_array)
+        # np_image=np.reshape(np_image,(480,640,3))
+        # # # # Convert RGB to BGR
+        # np_image = np_image[:, :, ::-1]
+        return np.ones((480,640,3),dtype="uint8")*128
 
     def setter(self,output_img,img_to_stack):
         self.output_img=output_img
