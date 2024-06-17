@@ -9,3 +9,4 @@ streamlit-webrtc==0.47.6
 av==11.0.0
 tensorflow==2.15.0
 twilio==9.1.1
+pyvista==0.43.5
