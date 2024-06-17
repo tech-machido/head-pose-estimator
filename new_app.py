@@ -90,6 +90,7 @@ def main(output_img,img_to_stack,mesh,main_dir):
     mode=WebRtcMode.SENDRECV,
     video_processor_factory=lambda: VideoProcessor(img_to_stack,output_img,mesh,main_dir),
     media_stream_constraints={"video": True, "audio": False},
+    async_processing=True,
     
 )
 
