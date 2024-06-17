@@ -15,8 +15,21 @@ import streamlit_webrtc
 import streamlit as st
 import pyvista as pv
 from pyvista import Plotter
+from twilio.rest import Client
 
 import av
+
+def get_ice_servers():
+    try:
+        account_sid = os.environ["TWILIO_ACCOUNT_SID"]
+        auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+    except KeyError:
+     
+        return [{"urls": ["stun:stun.l.google.com:19302"]}]
+
+    client = Client(account_sid, auth_token)
+    token = client.tokens.create()
+    return token.ice_servers
 
 class VideoProcessor(VideoTransformerBase):
     def __init__(self,img_to_stack,output_img,mesh,main_dir):
@@ -68,7 +81,7 @@ class VideoProcessor(VideoTransformerBase):
         mesh=mesh.rotate_z(-angle_z)
         
         plotter = Plotter(off_screen=True)
-        plotter.add_mesh(mesh, show_edges=True)
+        plotter.add_mesh(mesh)
         plotter.camera_position = 'xy'
 
         # # Render the plot to an image and display it
@@ -88,6 +101,8 @@ def main(output_img,img_to_stack,mesh,main_dir):
     webrtc_ctx = webrtc_streamer(
     key="example",
     mode=WebRtcMode.SENDRECV,
+    rtc_configuration={"iceServers": get_ice_servers()},
+
     video_processor_factory=lambda: VideoProcessor(img_to_stack,output_img,mesh,main_dir),
     media_stream_constraints={"video": True, "audio": False},
     async_processing=True,
@@ -106,9 +121,6 @@ if __name__=="__main__":
     main_dir=os.path.dirname(__file__)
     img_to_stack=np.zeros((480,640,3),dtype="uint8")
     output_img=np.zeros((480,640,3),dtype="uint8")
-    counter=0
-    pre_x,pre_y,pre_z=90,180,0
-    
     file_path = os.path.join(main_dir,"ImageToStl.com_mark_85.stl")
     mesh = pv.read(file_path)
     
