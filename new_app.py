@@ -155,6 +155,8 @@ import pyvista as pv
 from pyvista import Plotter
 import cv2
 import os 
+
+pv.start_xvfb()
 st.title("3D Mesh Viewer")
 
 # Fixed file path
