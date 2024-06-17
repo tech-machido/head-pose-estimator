@@ -1,6 +1,7 @@
 vtk==9.3.0
 Pillow==10.3.0
 opencv-python-headless==4.9.0.80
+streamlit
 mediapipe==0.10.9
 numpy==1.23.5
 keras==2.15.0
