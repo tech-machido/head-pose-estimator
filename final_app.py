@@ -16,7 +16,7 @@ import streamlit_webrtc
 import av
 from twilio.rest import Client
 
-# @st.cache_data
+@st.cache_data
 def get_ice_servers():
     try:
         account_sid = os.environ["TWILIO_ACCOUNT_SID"]
@@ -66,7 +66,7 @@ class VideoProcessor(VideoTransformerBase):
                 deg_x,deg_y,deg_z,t_x,t_y,t_z=label
                 self.img_to_stack=self.rotate(deg_x,deg_y,deg_z) 
                 self.output_img=np.vstack((image,self.img_to_stack)) 
-               
+                # print(self.img_to_stack.shape,self.output_img.shape,image.shape)
 
                 self.output_img=cv2.resize(self.output_img,(640,480))
                 self.output_img=self.output_img.astype("uint8")
@@ -92,12 +92,12 @@ class VideoProcessor(VideoTransformerBase):
         vtk_image = window_to_image_filter.GetOutput()
         width, height, _ = vtk_image.GetDimensions()
         vtk_array = vtk_image.GetPointData().GetScalars()
-        # vtk_array.SetNumberOfComponents(3)  # Ensure RGB
-        # np_image = np.array(vtk_array)
-        # np_image=np.reshape(np_image,(480,640,3))
-        # # # # Convert RGB to BGR
-        # np_image = np_image[:, :, ::-1]
-        return np.ones((480,640,3),dtype="uint8")*128
+        vtk_array.SetNumberOfComponents(3)  # Ensure RGB
+        np_image = np.array(vtk_array)
+        np_image=np.reshape(np_image,(480,640,3))
+        # # # Convert RGB to BGR
+        np_image = np_image[:, :, ::-1]
+        return np_image
 
     def setter(self,output_img,img_to_stack):
         self.output_img=output_img
@@ -107,22 +107,7 @@ class VideoProcessor(VideoTransformerBase):
         return self.output_img,self.img_to_stack
 
 
-def main(output_img,img_to_stack):
-    st.title("Real-time Video Stream using WebRTC")
-    vtkObject.GlobalWarningDisplayOff() 
 
-
-
-    # webrtc_streamer(key="example", video_processor_factory=VideoProcessor)
-
-    webrtc_ctx = webrtc_streamer(
-    key="example",
-    mode=WebRtcMode.SENDRECV,
-    rtc_configuration={"iceServers": get_ice_servers()},
-    video_processor_factory=lambda: VideoProcessor(img_to_stack,output_img,transform,imported_actors,actor,render_window),
-    media_stream_constraints={"video": True, "audio": False},
-    async_processing=True,
-)
 
 
 ## function for rotating iron man mask model through specified angles
@@ -177,5 +162,20 @@ if __name__=="__main__":
 
     mp_drawing=mp.solutions.drawing_utils
     drawing_spec=mp_drawing.DrawingSpec(thickness=1,circle_radius=1)
+    
+    st.title("Real-time Video Stream using WebRTC")
+    vtkObject.GlobalWarningDisplayOff() 
 
-    main(output_img,img_to_stack)
+
+
+    # webrtc_streamer(key="example", video_processor_factory=VideoProcessor)
+
+    webrtc_ctx = webrtc_streamer(
+    key="example",
+    mode=WebRtcMode.SENDRECV,
+    rtc_configuration={"iceServers": get_ice_servers()},
+    video_processor_factory=lambda: VideoProcessor(img_to_stack,output_img,transform,imported_actors,actor,render_window),
+    media_stream_constraints={"video": True, "audio": False},
+    async_processing=True,
+)
+    
